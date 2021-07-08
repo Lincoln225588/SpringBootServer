@@ -1,32 +1,37 @@
 package com.adweb.adwebserver.domain;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.util.Objects;
+import com.alibaba.fastjson.JSONArray;
+import com.vladmihalcea.hibernate.type.json.JsonStringType;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
+import javax.persistence.*;
+import java.util.Objects;
+@TypeDef(name = "json", typeClass = JsonStringType.class)
 @Entity
 public class Course {
-    private int courseId;
+    private Integer courseId;
     private String courseName;
     private String courseDetail;
-    private String coursePath;
-    private int teacherId;
+    private Integer teacherId;
     private String teacherName;
+    private Integer flag;
+    private JSONArray directory;
+    private String courseImage;
 
     @Id
-    @Column(name = "CourseID")
-    public int getCourseId() {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "courseID")
+    public Integer getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(int courseId) {
+    public void setCourseId(Integer courseId) {
         this.courseId = courseId;
     }
 
     @Basic
-    @Column(name = "CourseName")
+    @Column(name = "course_name")
     public String getCourseName() {
         return courseName;
     }
@@ -36,7 +41,7 @@ public class Course {
     }
 
     @Basic
-    @Column(name = "CourseDetail")
+    @Column(name = "course_detail")
     public String getCourseDetail() {
         return courseDetail;
     }
@@ -46,27 +51,17 @@ public class Course {
     }
 
     @Basic
-    @Column(name = "CoursePath")
-    public String getCoursePath() {
-        return coursePath;
-    }
-
-    public void setCoursePath(String coursePath) {
-        this.coursePath = coursePath;
-    }
-
-    @Basic
-    @Column(name = "TeacherID")
-    public int getTeacherId() {
+    @Column(name = "teacherID")
+    public Integer getTeacherId() {
         return teacherId;
     }
 
-    public void setTeacherId(int teacherId) {
+    public void setTeacherId(Integer teacherId) {
         this.teacherId = teacherId;
     }
 
     @Basic
-    @Column(name = "TeacherName")
+    @Column(name = "teacher_name")
     public String getTeacherName() {
         return teacherName;
     }
@@ -75,6 +70,32 @@ public class Course {
         this.teacherName = teacherName;
     }
 
+    @Basic
+    @Column(name = "flag")
+    public Integer getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Integer flag) {
+        this.flag = flag;
+    }
+
+    @Basic
+    @Type(type = "json")
+    @Column(name = "directory")
+    public JSONArray getDirectory() {
+        return directory;
+    }
+
+    public void setDirectory(JSONArray directory) {
+        this.directory = directory;
+    }
+
+    @Basic
+    @Column(name = "course_image")
+    public String getCourseImage(){return courseImage;}
+    public void setCourseImage(String courseImage){this.courseImage=courseImage;}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,14 +103,30 @@ public class Course {
         Course course = (Course) o;
         return courseId == course.courseId &&
                 teacherId == course.teacherId &&
+                flag == course.flag &&
                 Objects.equals(courseName, course.courseName) &&
                 Objects.equals(courseDetail, course.courseDetail) &&
-                Objects.equals(coursePath, course.coursePath) &&
-                Objects.equals(teacherName, course.teacherName);
+                Objects.equals(teacherName, course.teacherName) &&
+                Objects.equals(directory, course.directory)&&
+                Objects.equals(courseImage,course.courseImage);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(courseId, courseName, courseDetail, coursePath, teacherId, teacherName);
+        return Objects.hash(courseId, courseName, courseDetail, teacherId, teacherName, flag, directory,courseImage);
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "courseId=" + courseId +
+                ", courseName='" + courseName + '\'' +
+                ", courseDetail='" + courseDetail + '\'' +
+                ", teacherId=" + teacherId +
+                ", teacherName='" + teacherName + '\'' +
+                ", flag=" + flag +
+                ", directory=" + directory +
+                ", courseImage='" + courseImage + '\'' +
+                '}';
     }
 }

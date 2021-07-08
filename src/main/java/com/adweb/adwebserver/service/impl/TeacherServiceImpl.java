@@ -1,9 +1,9 @@
 package com.adweb.adwebserver.service.impl;
 
 import com.adweb.adwebserver.domain.Course;
-import com.adweb.adwebserver.domain.CourseRepository;
+import com.adweb.adwebserver.domain.repository.CourseRepository;
 import com.adweb.adwebserver.domain.Teacher;
-import com.adweb.adwebserver.domain.TeacherRepository;
+import com.adweb.adwebserver.domain.repository.TeacherRepository;
 import com.adweb.adwebserver.service.TeacherService;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +23,26 @@ public class TeacherServiceImpl implements TeacherService {
     private CourseRepository courseRepository;
     @Override
     public Teacher register(Teacher teacher) {
+        if (teacherRepository.getTeacherByNumber(teacher.getNumber())==null)
         return teacherRepository.save(teacher);
+        return null;
     }
 
     @Override
-    public Teacher login(int number, String password) {
+    public Teacher login(String number, String password) {
         return teacherRepository.findTeacherByNumberAndPassword(number,password);
+    }
+
+    @Override
+    public int getTeacherIdByNumberAndPassword(String number, String password) {
+        Teacher teacher=teacherRepository.findTeacherByNumberAndPassword(number,password);
+        return teacher!=null?teacher.getTeacherId():0;
     }
 
     @Override
     public Teacher update(Teacher teacher) {
         Teacher teacher0=teacherRepository.getTeacherByTeacherId(teacher.getTeacherId());
-        teacher0.setNumber(teacher.getNumber());
+        //teacher0.setNumber(teacher.getNumber());
         teacher0.setEmail(teacher.getEmail());
         teacher0.setName(teacher.getName());
         teacher0.setAvatar(teacher.getAvatar());
@@ -44,7 +52,6 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Teacher getTeacher(Teacher teacher) {
         int teacherID=teacher.getTeacherId();
-        System.out.println(teacher.toString());
         teacher =teacherRepository.getTeacherByTeacherId(teacherID);
         teacher.setPassword("");
         return teacher;
@@ -52,7 +59,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public boolean setPassword(Teacher teacher, String newPassword) {
-        Teacher teacher0=teacherRepository.getTeacherByTeacherId(teacher.getTeacherId());
+        Teacher teacher0=teacherRepository.findTeacherByNumberAndPassword(teacher.getNumber(),teacher.getPassword());
         if (teacher.getPassword().equals(teacher0.getPassword())) {
             teacher0.setPassword(newPassword);
             teacherRepository.save(teacher0);
@@ -66,10 +73,10 @@ public class TeacherServiceImpl implements TeacherService {
         return courseRepository.getCoursesByTeacherId(teacherID);
     }
 
-    @Override
+    /*@Override
     public Course updateCourse(Teacher teacher, Course course) {
         return null;
-    }
+    }*/
 
     @Override
     public boolean updateDirectory(JSONPObject directory, Course course) {

@@ -1,15 +1,14 @@
 package com.adweb.adwebserver.domain;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.util.Objects;
+import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
+import java.util.Objects;
+@Component
 @Entity
 public class Teacher {
-    private int teacherId;
-    private Integer number;
+    private Integer teacherId;
+    private String number;
     private String name;
     private String email;
     private String invitation;
@@ -17,27 +16,28 @@ public class Teacher {
     private String avatar;
 
     @Id
-    @Column(name = "TeacherID")
-    public int getTeacherId() {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "teacherID")
+    public Integer getTeacherId() {
         return teacherId;
     }
 
-    public void setTeacherId(int teacherId) {
+    public void setTeacherId(Integer teacherId) {
         this.teacherId = teacherId;
     }
 
     @Basic
-    @Column(name = "Number")
-    public Integer getNumber() {
+    @Column(name = "number")
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
     @Basic
-    @Column(name = "Name")
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -47,7 +47,7 @@ public class Teacher {
     }
 
     @Basic
-    @Column(name = "Email")
+    @Column(name = "email")
     public String getEmail() {
         return email;
     }
@@ -57,7 +57,7 @@ public class Teacher {
     }
 
     @Basic
-    @Column(name = "Invitation")
+    @Column(name = "invitation")
     public String getInvitation() {
         return invitation;
     }
@@ -67,7 +67,7 @@ public class Teacher {
     }
 
     @Basic
-    @Column(name = "Password")
+    @Column(name = "password")
     public String getPassword() {
         return password;
     }
@@ -77,7 +77,7 @@ public class Teacher {
     }
 
     @Basic
-    @Column(name = "Avatar")
+    @Column(name = "avatar")
     public String getAvatar() {
         return avatar;
     }
@@ -109,7 +109,7 @@ public class Teacher {
     public String toString() {
         return "Teacher{" +
                 "teacherId=" + teacherId +
-                ", number=" + number +
+                ", number='" + number + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", invitation='" + invitation + '\'' +

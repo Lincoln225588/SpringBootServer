@@ -1,9 +1,10 @@
 package com.adweb.adwebserver.service.impl;
 
 import com.adweb.adwebserver.domain.*;
+import com.adweb.adwebserver.domain.repository.CourseRepository;
+import com.adweb.adwebserver.domain.repository.StudentRepository;
+import com.adweb.adwebserver.service.CourseService;
 import com.adweb.adwebserver.service.StudentService;
-import com.adweb.adwebserver.service.TeacherService;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +18,17 @@ import java.util.List;
 public class StudentServiceImpl implements StudentService {
     @Autowired
     private StudentRepository studentRepository;
-    /*@Autowired
-    private CourseRepository courseRepository;*/
+    @Autowired
+    private CourseRepository courseRepository;
 
     @Override
-    public Student login(String wechatId) {
-        /*Student st = studentRepository.getStudentByWechatId(wechatId);
-        studentRepository.save(st);*/
-        return studentRepository.getStudentByWechatId(wechatId);
+    public Student login(Student student) {
+        Student student1=studentRepository.getStudentByWechatId(student.getWechatId());
+        if (student1==null)
+           return studentRepository.save(student);
+        student1.setAvatar(student.getAvatar());
+        student1.setName(student.getName());
+        return studentRepository.save(student1);//登陆时只修改昵称，头像信息
     }
 
     @Override
@@ -40,10 +44,27 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student getStudent(Student student) {
         int studentID = student.getStudentId();
-        System.out.println(student.toString());
         student = studentRepository.getStudentByStudentId(studentID);
 
         return student;
+    }
+
+    @Override
+    public Student getStudentByWechatID(String wechatID) {
+        return studentRepository.getStudentByWechatId(wechatID);
+    }
+
+    //todo courseRepository里要实现下面两个方法
+    //@Override
+    public List<Course> getAllCourse(int studentID) {
+        //return courseRepository.getCoursesByStudentId(studentID);
+        return courseRepository.getCoursesByFlag(1);//已经发布的课程
+    }
+
+    //@Override
+    public Course getDetailCourse(int studentID, int courseID) {
+        //return courseRepository.getCoursesByStudentIDAndCourseID();
+        return null;
     }
 
 

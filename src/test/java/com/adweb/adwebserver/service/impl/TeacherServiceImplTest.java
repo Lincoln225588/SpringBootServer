@@ -1,7 +1,6 @@
 package com.adweb.adwebserver.service.impl;
 
 import com.adweb.adwebserver.domain.Teacher;
-import com.adweb.adwebserver.domain.TeacherRepository;
 import com.adweb.adwebserver.service.TeacherService;
 import org.junit.After;
 import org.junit.Before;
@@ -21,14 +20,14 @@ public class TeacherServiceImplTest {
 
     @Test
     public void register() {
-        Teacher teacher=new Teacher();
-        teacher.setPassword("1231432");
-        teacher.setAvatar("213123");
-        teacher.setName("helloworld");
-        teacher.setEmail("2131231");
-        teacher.setNumber(12341312);
-        teacher.setInvitation("2313214");
-        System.out.println(teacherService.register(teacher));
+//        Teacher teacher=new Teacher();
+//        teacher.setPassword("1231432");
+//        teacher.setAvatar("213123");
+//        teacher.setName("helloworld");
+//        teacher.setEmail("2131231");
+//        //teacher.setNumber(12341312);
+//        teacher.setInvitation("2313214");
+//        System.out.println(teacherService.register(teacher));
     }
 
     @Test

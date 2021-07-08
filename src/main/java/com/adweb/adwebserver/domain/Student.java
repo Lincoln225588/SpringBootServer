@@ -1,42 +1,42 @@
 package com.adweb.adwebserver.domain;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.util.Objects;
+import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
+import java.util.Objects;
+@Component
 @Entity
 public class Student {
-    private int studentId;
-    private Integer number;
+    private Integer studentId;
+    private String number;
     private String name;
     private String email;
     private String avatar;
     private String wechatId;
 
     @Id
-    @Column(name = "StudentID")
-    public int getStudentId() {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "studentID")
+    public Integer getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(int studentId) {
+    public void setStudentId(Integer studentId) {
         this.studentId = studentId;
     }
 
     @Basic
-    @Column(name = "Number")
-    public Integer getNumber() {
+    @Column(name = "number")
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
     @Basic
-    @Column(name = "Name")
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -46,7 +46,7 @@ public class Student {
     }
 
     @Basic
-    @Column(name = "Email")
+    @Column(name = "email")
     public String getEmail() {
         return email;
     }
@@ -56,7 +56,7 @@ public class Student {
     }
 
     @Basic
-    @Column(name = "Avatar")
+    @Column(name = "avatar")
     public String getAvatar() {
         return avatar;
     }
@@ -66,7 +66,7 @@ public class Student {
     }
 
     @Basic
-    @Column(name = "WechatID")
+    @Column(name = "wechatID")
     public String getWechatId() {
         return wechatId;
     }
